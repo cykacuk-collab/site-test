@@ -1,0 +1,26 @@
+{
+  "name": "site-ma",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "^4.5.2",
+    "nuxt-security": "^2.6.0",
+    "resend": "^6.28.1",
+    "stripe": "^22.6.2",
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "@nuxtjs/i18n": "^10.6.0",
+    "@nuxtjs/supabase": "^2.0.10",
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "@nuxtjs/turnstile": "^1.1.3"
+  }
+}

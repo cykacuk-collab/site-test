@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Our Creations",
+    "events": "Events",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "slogan": "The art of the tart, reinvented",
+    "subtitle": "Professional quality sweet and savory tart shells for your culinary creations.",
+    "cta": "Discover our products"
+  },
+  "creations": {
+    "title": "Our Creations",
+    "subtitle": "Discover our range of artisanal tart shells, crafted with passion to elevate your recipes.",
+    "sweet": {
+      "title": "Sweet Tart Shells",
+      "desc": "Crispy and buttery shortcrust pastry, perfect for your fruit, lemon, or chocolate tarts.",
+      "link": "View products"
+    },
+    "savory": {
+      "title": "Savory Tart Shells",
+      "desc": "Flavorful and sturdy shortcrust pastry, ideal for your quiches, vegetable tarts, and savory dishes.",
+      "link": "View products"
+    }
+  }
+}

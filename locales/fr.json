@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "products": "Nos créations",
+    "events": "Événements",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "hero": {
+    "slogan": "L'art de la tarte, réinventé",
+    "subtitle": "Fonds de tarte salée et sucrée de qualité professionnelle pour vos créations culinaires.",
+    "cta": "Découvrir nos produits"
+  },
+  "creations": {
+    "title": "Nos Créations",
+    "subtitle": "Découvrez notre gamme de fonds de tarte artisanaux, conçus avec passion pour sublimer vos recettes.",
+    "sweet": {
+      "title": "Fonds de tarte sucrée",
+      "desc": "Pâte sablée croustillante et beurrée, parfaite pour vos tartes aux fruits, au citron ou au chocolat.",
+      "link": "Voir les produits"
+    },
+    "savory": {
+      "title": "Fonds de tarte salée",
+      "desc": "Pâte brisée savoureuse et résistante, idéale pour vos quiches, tartes aux légumes et préparations salées.",
+      "link": "Voir les produits"
+    }
+  }
+}

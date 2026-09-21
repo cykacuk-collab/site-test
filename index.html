@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histoire et Saveurs | Fonds de tarte artisanaux</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b2f2f', /* Dark chocolate/brown */
+                        secondary: '#d4a373', /* Caramel/gold */
+                        beige: '#fefae0', /* Cream/beige for about section */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Playfair Display', serif; }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/95 backdrop-blur shadow-sm z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <span class="font-serif font-bold text-2xl text-primary">[Logo WIP]</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#accueil" class="text-gray-600 hover:text-secondary transition font-medium">Accueil</a>
+                    <a href="#creations" class="text-gray-600 hover:text-secondary transition font-medium">Nos créations</a>
+                    <a href="#evenements" class="text-gray-600 hover:text-secondary transition font-medium">Événements</a>
+                    <a href="#apropos" class="text-gray-600 hover:text-secondary transition font-medium">À propos</a>
+                    <a href="#contact" class="text-gray-600 hover:text-secondary transition font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-sm font-semibold cursor-pointer text-gray-500 hover:text-primary">
+                        <span class="text-primary underline">FR</span> / <span>EN</span>
+                    </div>
+                    <button class="text-gray-600 hover:text-secondary transition">
+                        <i class="fa-solid fa-shopping-cart text-xl"></i>
+                    </button>
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden flex items-center">
+                        <button class="text-gray-600 hover:text-primary focus:outline-none">
+                            <i class="fa-solid fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Accueil) -->
+    <header id="accueil" class="hero-bg h-screen flex items-center justify-center text-center">
+        <div class="max-w-3xl px-4 mt-16">
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
+                [Slogan WIP: L'art de la tarte, réinventé]
+            </h1>
+            <p class="text-xl md:text-2xl text-white mb-10 drop-shadow-md">
+                Fonds de tarte salée et sucrée de qualité professionnelle pour vos créations culinaires.
+            </p>
+            <a href="#creations" class="bg-secondary text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-600 transition shadow-lg inline-block">
+                Découvrir nos produits
+            </a>
+        </div>
+    </header>
+
+    <!-- Nos Créations Section -->
+    <section id="creations" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-primary mb-4">Nos Créations</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Découvrez notre gamme de fonds de tarte artisanaux, conçus avec passion pour sublimer vos recettes.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Sweet Tarts -->
+                <div class="group cursor-pointer">
+                    <div class="relative h-80 overflow-hidden rounded-xl shadow-lg mb-6">
+                        <img src="https://images.unsplash.com/photo-1519915028121-7d3463d20b13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fonds de tarte sucrée" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition"></div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary mb-2">Fonds de tarte sucrée</h3>
+                    <p class="text-gray-600 mb-4">Pâte sablée croustillante et beurrée, parfaite pour vos tartes aux fruits, au citron ou au chocolat.</p>
+                    <span class="text-secondary font-semibold group-hover:underline">Voir les produits <i class="fa-solid fa-arrow-right ml-1 text-sm"></i></span>
+                </div>
+                
+                <!-- Savory Tarts -->
+                <div class="group cursor-pointer">
+                    <div class="relative h-80 overflow-hidden rounded-xl shadow-lg mb-6">
+                        <img src="https://images.unsplash.com/photo-1601000938259-9e92002320b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fonds de tarte salée" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition"></div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary mb-2">Fonds de tarte salée</h3>
+                    <p class="text-gray-600 mb-4">Pâte brisée savoureuse et résistante, idéale pour vos quiches, tartes aux légumes et préparations salées.</p>
+                    <span class="text-secondary font-semibold group-hover:underline">Voir les produits <i class="fa-solid fa-arrow-right ml-1 text-sm"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Événements Section -->
+    <section id="evenements" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-4xl font-bold text-primary mb-6">Vos Événements, Notre Savoir-faire</h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        Que ce soit pour un mariage élégant, une réception corporative, ou une célébration privée, Histoire et saveurs vous accompagne. Nous fournissons des bases parfaites pour impressionner vos invités.
+                    </p>
+                    <ul class="space-y-4 mb-8 text-gray-700">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-secondary mt-1 mr-3"></i> <span>Formats cocktails et mignardises</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-secondary mt-1 mr-3"></i> <span>Commandes en gros pour traiteurs</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-secondary mt-1 mr-3"></i> <span>Personnalisation selon vos besoins</span></li>
+                    </ul>
+                    <a href="#contact" class="inline-block border-2 border-primary text-primary px-8 py-3 rounded-full font-semibold hover:bg-primary hover:text-white transition">Demander une soumission</a>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <div class="relative rounded-xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8892ebe819?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Buffet événementiel" class="w-full h-auto">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonials -->
+            <div class="mt-20 pt-16 border-t border-gray-200">
+                <h3 class="text-2xl font-bold text-center text-primary mb-10">Ce que nos clients disent</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                        <div class="flex text-secondary mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">"Les fonds de tarte sont incroyables. Ils gardent leur croquant même après cuisson avec une garniture liquide. Un must pour notre service traiteur."</p>
+                        <p class="font-semibold text-primary">- Marie L., Chef Traiteur</p>
+                    </div>
+                    <!-- Placeholders for more reviews -->
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 opacity-70">
+                        <p class="text-gray-400 italic mb-4">[Témoignage client à venir]</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 opacity-70">
+                        <p class="text-gray-400 italic mb-4">[Témoignage client à venir]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- À Propos Section -->
+    <section id="apropos" class="py-20 bg-beige">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1556910103-1c02745a872f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Préparation de pâte" class="rounded-xl shadow-xl w-full h-[500px] object-cover">
+                </div>
+                <div class="pl-0 lg:pl-10">
+                    <h2 class="text-4xl font-bold text-primary mb-6">Notre Histoire & Passion</h2>
+                    <div class="w-16 h-1 bg-secondary mb-6"></div>
+                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                        Nés de l'amour de la pâtisserie authentique, nous avons fondé <strong>Histoire et saveurs</strong> avec une mission simple : offrir une base parfaite pour vos créations.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                        Chaque fond de tarte est confectionné avec des ingrédients de première qualité, un savoir-faire artisanal et une cuisson maîtrisée. Que vous soyez un professionnel ou un passionné à la maison, nos produits sont conçus pour sublimer vos recettes.
+                    </p>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm inline-block">
+                        <h4 class="font-bold text-primary mb-2 flex items-center"><i class="fa-solid fa-clock mr-2 text-secondary"></i> Heures d'ouverture</h4>
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li class="flex justify-between w-48"><span>Lun - Ven:</span> <span>8h00 - 17h00</span></li>
+                            <li class="flex justify-between w-48"><span>Samedi:</span> <span>9h00 - 14h00</span></li>
+                            <li class="flex justify-between w-48"><span>Dimanche:</span> <span>Fermé</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="bg-[#1a1a1a] text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-gray-800 pb-12">
+                <!-- Brand Info -->
+                <div>
+                    <h3 class="font-serif font-bold text-3xl mb-6 text-secondary">[Logo WIP]</h3>
+                    <p class="text-gray-400 mb-6">
+                        Des fonds de tarte artisanaux d'exception pour toutes vos envies, salées ou sucrées.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-secondary transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-secondary transition"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <!-- Contact Links -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Contactez-nous</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-location-dot mt-1 mr-3 text-secondary w-4"></i>
+                            <span>123 Rue de la Boulangerie<br>Québec, QC G1V 2M2</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-phone mr-3 text-secondary w-4"></i>
+                            <a href="tel:+14185551234" class="hover:text-white transition">(418) 555-1234</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-envelope mr-3 text-secondary w-4"></i>
+                            <a href="mailto:contact@histoireetsaveurs.ca" class="hover:text-white transition">contact@histoireetsaveurs.ca</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Quick Links & Policies -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Liens Utiles</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#creations" class="hover:text-white transition">Boutique en ligne</a></li>
+                        <li><a href="#apropos" class="hover:text-white transition">Notre histoire</a></li>
+                        <li><a href="#" class="hover:text-white transition">Politique de confidentialité</a></li>
+                        <li><a href="#" class="hover:text-white transition">Conditions de vente</a></li>
+                        <li><a href="#" class="hover:text-white transition">Politique de retour</a></li>
+                        <li><a href="#" class="hover:text-white transition">Informations sur les allergènes</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Histoire et saveurs. Tous droits réservés.</p>
+                <p class="mt-2 md:mt-0">Fait avec passion au Québec.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

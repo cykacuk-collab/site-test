@@ -1,0 +1,76 @@
+<template>
+  <div class="min-h-screen flex items-center justify-center bg-beige py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+      <div>
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-primary font-serif">
+          Admin Portal
+        </h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Histoire et Saveurs
+        </p>
+      </div>
+      <form class="mt-8 space-y-6" @submit.prevent="handleLogin">
+        <div class="rounded-md shadow-sm space-y-4">
+          <div>
+            <label for="email-address" class="sr-only">Email address</label>
+            <input id="email-address" name="email" type="email" autocomplete="email" required v-model="email" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm" placeholder="Email address">
+          </div>
+          <div>
+            <label for="password" class="sr-only">Password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required v-model="password" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm" placeholder="Password">
+          </div>
+        </div>
+
+        <div class="flex justify-center">
+          <NuxtTurnstile v-model="token" />
+        </div>
+
+        <div>
+          <button type="submit" :disabled="loading || !token" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50">
+            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+              <i class="fa-solid fa-lock text-secondary group-hover:text-yellow-400"></i>
+            </span>
+            {{ loading ? 'Signing in...' : 'Sign in' }}
+          </button>
+        </div>
+        <p v-if="errorMsg" class="text-red-500 text-sm text-center mt-2">{{ errorMsg }}</p>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script setup>
+definePageMeta({
+  layout: false // No navbar/footer for login page
+})
+
+const supabase = useSupabaseClient()
+const email = ref('')
+const password = ref('')
+const loading = ref(false)
+const errorMsg = ref('')
+const token = ref('') // Turnstile token
+
+const handleLogin = async () => {
+  if (!token.value) {
+    errorMsg.value = 'Please complete the captcha'
+    return
+  }
+
+  loading.value = true
+  errorMsg.value = ''
+  
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email.value,
+    password: password.value,
+  })
+  
+  if (error) {
+    errorMsg.value = error.message
+  } else {
+    // Redirect to dashboard
+    navigateTo('/admin')
+  }
+  loading.value = false
+}
+</script>
