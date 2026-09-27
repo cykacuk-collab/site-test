@@ -33,11 +33,22 @@
           
           <!-- Mobile menu button -->
           <div class="md:hidden flex items-center">
-            <button class="text-gray-600 hover:text-primary focus:outline-none">
-              <i class="fa-solid fa-bars text-2xl"></i>
+            <button @click="isMobileMenuOpen = !isMobileMenuOpen" class="text-gray-600 hover:text-primary focus:outline-none">
+              <i :class="isMobileMenuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'" class="text-2xl"></i>
             </button>
           </div>
         </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div v-show="isMobileMenuOpen" class="md:hidden bg-white/95 backdrop-blur-md border-t shadow-lg absolute w-full top-20 left-0">
+      <div class="px-4 pt-2 pb-6 space-y-4 flex flex-col items-center">
+        <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#accueil'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.home') }}</NuxtLink>
+        <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#creations'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.products') }}</NuxtLink>
+        <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#evenements'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.events') }}</NuxtLink>
+        <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#apropos'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.about') }}</NuxtLink>
+        <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#contact'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.contact') }}</NuxtLink>
       </div>
     </div>
   </nav>
@@ -48,4 +59,5 @@ const { locale, setLocale } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const { isCartOpen, cartItemCount } = useCart()
+const isMobileMenuOpen = ref(false)
 </script>
