@@ -95,6 +95,9 @@ $$;
 CREATE OR REPLACE FUNCTION increment_stock(p_id UUID, p_amount INT)
 RETURNS VOID AS $$
 BEGIN
+  IF p_amount <= 0 THEN
+    RAISE EXCEPTION 'Invalid amount';
+  END IF;
   UPDATE public.products SET stock = stock + p_amount WHERE id = p_id;
 END;
 $$ LANGUAGE plpgsql;
@@ -111,14 +114,17 @@ GRANT EXECUTE ON FUNCTION process_order_transaction(TEXT, TEXT, TEXT, INT, UUID,
 GRANT EXECUTE ON FUNCTION increment_stock(UUID, INT) TO service_role;
 
 -- VULN-08: Storage Policies and MIME Types
+DROP POLICY IF EXISTS "Public Access" ON storage.objects;
 CREATE POLICY "Public Access"
 ON storage.objects FOR SELECT
 USING ( bucket_id = 'product_images' );
 
+DROP POLICY IF EXISTS "Admin Uploads" ON storage.objects;
 CREATE POLICY "Admin Uploads"
 ON storage.objects FOR INSERT
 WITH CHECK ( bucket_id = 'product_images' AND public.is_admin() );
 
+DROP POLICY IF EXISTS "Admin Deletes" ON storage.objects;
 CREATE POLICY "Admin Deletes"
 ON storage.objects FOR DELETE
 USING ( bucket_id = 'product_images' AND public.is_admin() );
