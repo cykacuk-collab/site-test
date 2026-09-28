@@ -86,6 +86,7 @@
             <div class="absolute top-4 left-4 z-20 flex flex-col gap-2">
               <div v-if="index === 0" class="bg-secondary/90 backdrop-blur text-white px-3 py-1 text-xs font-bold rounded shadow uppercase tracking-wider">
                 {{ locale === 'en' ? 'Bestseller' : 'Meilleur Vendeur' }}
+              </div>
             </div>
 
             <div class="relative h-80 overflow-hidden mb-0">
