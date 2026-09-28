@@ -19,7 +19,7 @@
             {{ $t('hero.cta') }}
           </NuxtLink>
           <div class="flex justify-center md:justify-start gap-4">
-            <span class="text-xs uppercase tracking-wider font-bold text-primary/70 flex items-center"><i class="fa-solid fa-check text-secondary mr-2"></i> {{ locale === 'en' ? 'Handmade in Quebec' : 'Fait main au Québec' }}</span>
+            <span class="text-xs uppercase tracking-wider font-bold text-primary/70 flex items-center"><i class="fa-solid fa-check text-secondary mr-2"></i> {{ locale === 'en' ? 'Made in Quebec' : 'Fabriqué au Québec' }}</span>
             <span class="text-xs uppercase tracking-wider font-bold text-primary/70 flex items-center"><i class="fa-solid fa-leaf text-secondary mr-2"></i> {{ locale === 'en' ? 'Local Ingredients' : 'Ingrédients locaux' }}</span>
           </div>
         </div>
@@ -86,10 +86,6 @@
             <div class="absolute top-4 left-4 z-20 flex flex-col gap-2">
               <div v-if="index === 0" class="bg-secondary/90 backdrop-blur text-white px-3 py-1 text-xs font-bold rounded shadow uppercase tracking-wider">
                 {{ locale === 'en' ? 'Bestseller' : 'Meilleur Vendeur' }}
-              </div>
-              <div class="bg-primary/90 backdrop-blur text-white px-3 py-1 text-xs font-bold rounded shadow uppercase tracking-wider flex items-center">
-                <i class="fa-solid fa-fire mr-1"></i> {{ locale === 'en' ? 'Small Batch' : 'Fait Main' }}
-              </div>
             </div>
 
             <div class="relative h-80 overflow-hidden mb-0">
