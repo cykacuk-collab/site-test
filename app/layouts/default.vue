@@ -31,7 +31,7 @@ html {
 /* Glass Theme Inspiration */
 .glass-bg {
   background:
-    radial-gradient(65% 75% at 80% 5%, rgba(237, 246, 237, 0.8), transparent 70%), /* accent: pale mint */
+    radial-gradient(65% 75% at 80% 5%, rgba(181, 203, 181, 0.8), transparent 70%), /* accent: darkened sage green */
     radial-gradient(55% 65% at 10% 95%, rgba(232, 221, 204, 0.6), transparent 70%), /* secondary: warm sand */
     #faf9f6; /* beige */
   background-attachment: fixed;
