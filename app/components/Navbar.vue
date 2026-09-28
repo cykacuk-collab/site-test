@@ -4,15 +4,17 @@
       <div class="flex justify-between h-20 items-center">
         <!-- Logo -->
         <NuxtLink :to="localePath('/')" class="flex-shrink-0 flex items-center cursor-pointer">
-          <span class="font-serif font-bold text-2xl text-primary">[Logo WIP]</span>
+          <span class="font-serif font-bold text-2xl text-primary"><i class="fa-solid fa-cookie-bite text-secondary mr-2"></i>Histoire et Saveurs</span>
         </NuxtLink>
 
         <!-- Desktop Menu -->
-        <div class="hidden md:flex space-x-8 items-center">
+        <div class="hidden md:flex space-x-6 items-center">
           <NuxtLink :to="localePath('/') + '#accueil'" class="text-gray-600 hover:text-secondary transition font-medium">{{ $t('nav.home') }}</NuxtLink>
           <NuxtLink :to="localePath('/') + '#creations'" class="text-gray-600 hover:text-secondary transition font-medium">{{ $t('nav.products') }}</NuxtLink>
-          <NuxtLink :to="localePath('/') + '#evenements'" class="text-gray-600 hover:text-secondary transition font-medium">{{ $t('nav.events') }}</NuxtLink>
           <NuxtLink :to="localePath('/') + '#apropos'" class="text-gray-600 hover:text-secondary transition font-medium">{{ $t('nav.about') }}</NuxtLink>
+          <NuxtLink :to="localePath('/') + '#temoignages'" class="text-gray-600 hover:text-secondary transition font-medium">Témoignages</NuxtLink>
+          <NuxtLink :to="localePath('/') + '#evenements'" class="text-gray-600 hover:text-secondary transition font-medium">{{ $t('nav.events') }}</NuxtLink>
+          <NuxtLink :to="localePath('/') + '#faq'" class="text-gray-600 hover:text-secondary transition font-medium">FAQ</NuxtLink>
           <NuxtLink :to="localePath('/') + '#contact'" class="text-gray-600 hover:text-secondary transition font-medium">{{ $t('nav.contact') }}</NuxtLink>
         </div>
 
@@ -46,8 +48,10 @@
       <div class="px-4 pt-2 pb-6 space-y-4 flex flex-col items-center">
         <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#accueil'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.home') }}</NuxtLink>
         <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#creations'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.products') }}</NuxtLink>
-        <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#evenements'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.events') }}</NuxtLink>
         <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#apropos'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.about') }}</NuxtLink>
+        <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#temoignages'" class="block text-gray-800 hover:text-secondary font-medium text-lg">Témoignages</NuxtLink>
+        <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#evenements'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.events') }}</NuxtLink>
+        <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#faq'" class="block text-gray-800 hover:text-secondary font-medium text-lg">FAQ</NuxtLink>
         <NuxtLink @click="isMobileMenuOpen = false" :to="localePath('/') + '#contact'" class="block text-gray-800 hover:text-secondary font-medium text-lg">{{ $t('nav.contact') }}</NuxtLink>
       </div>
     </div>
@@ -55,7 +59,7 @@
 </template>
 
 <script setup>
-const { locale, setLocale } = useI18n()
+const { locale } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const { isCartOpen, cartItemCount } = useCart()

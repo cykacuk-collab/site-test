@@ -37,11 +37,32 @@ export default defineEventHandler(async (event) => {
   }
 
   // 3. Extract items and ensure it's a valid array
-  const items = body.items
+  let items = body.items
   if (!Array.isArray(items) || items.length === 0) {
     console.error('[CHECKOUT] Empty or invalid cart payload')
     throw createError({ statusCode: 400, message: 'Panier vide' })
   }
+
+  // Deduplicate items and validate
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  const mergedItems: Record<string, { id: string, quantity: number }> = {}
+  for (const item of items) {
+    if (typeof item.id !== 'string' || !uuidRegex.test(item.id)) {
+      throw createError({ statusCode: 400, message: 'Invalid item id format' })
+    }
+    if (!Number.isInteger(item.quantity) || item.quantity <= 0 || item.quantity >= 100) {
+      throw createError({ statusCode: 400, message: 'Quantité invalide' })
+    }
+    if (mergedItems[item.id]) {
+      mergedItems[item.id].quantity += item.quantity
+      if (mergedItems[item.id].quantity >= 100) {
+        throw createError({ statusCode: 400, message: 'Quantité totale trop élevée pour un article' })
+      }
+    } else {
+      mergedItems[item.id] = { id: item.id, quantity: item.quantity }
+    }
+  }
+  items = Object.values(mergedItems)
 
   const itemIds = items.map(item => item.id)
 
@@ -68,6 +89,7 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, message: `Produit introuvable: ${item.id}` })
     }
 
+    if (!Number.isInteger(item.quantity) || item.quantity <= 0) throw createError({ statusCode: 400, message: 'Quantité invalide' })
     cartForRpc.push({ id: item.id, quantity: item.quantity })
 
     lineItems.push({
@@ -97,8 +119,7 @@ export default defineEventHandler(async (event) => {
   // 6. Create Stripe Checkout Session
   console.log('[CHECKOUT] Inventory locked. Generating Stripe checkout session...')
   try {
-    const reqUrl = getRequestURL(event)
-    const baseUrl = reqUrl.origin // e.g. https://my-site.vercel.app
+    const baseUrl = useRuntimeConfig().public.siteUrl || process.env.APP_URL // e.g. https://my-site.vercel.app
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -109,15 +130,22 @@ export default defineEventHandler(async (event) => {
       shipping_address_collection: {
         allowed_countries: ['CA'], // Restrict to Canada
       },
+      metadata: {
+        cart_id: body.cartId || ''
+      },
       expires_at: Math.floor(Date.now() / 1000) + (30 * 60) // Strictly 30 mins
     })
 
     console.log('[CHECKOUT] Stripe session created successfully:', session.id)
     return { url: session.url }
-  } catch (err) {
+  } catch (err: any) {
     console.error('[CHECKOUT] Stripe Session creation failed:', err)
     // If Stripe fails to create the session, atomically release the inventory back!
-    await supabase.rpc('release_cart_lock', { cart_items: cartForRpc })
-    throw createError({ statusCode: 500, message: `Erreur Stripe: ${err.message}` })
+    try {
+      await supabase.rpc('release_cart_lock', { cart_items: cartForRpc })
+    } catch (releaseErr) {
+      console.error('[CHECKOUT] Failed to release lock:', releaseErr)
+    }
+    throw createError({ statusCode: 500, message: "Erreur de traitement du paiement" })
   }
 })

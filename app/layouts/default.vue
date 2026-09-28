@@ -2,6 +2,7 @@
   <div class="glass-bg text-gray-800 antialiased font-sans flex flex-col min-h-screen">
     <Navbar />
     <Cart />
+    <ToastContainer />
     <main class="flex-grow pt-20">
       <slot />
     </main>
@@ -12,6 +13,7 @@
 
 <script setup>
 import Navbar from '~/components/Navbar.vue'
+import ToastContainer from '~/components/ToastContainer.vue'
 </script>
 
 <style>
@@ -43,5 +45,16 @@ html {
   box-shadow: 
     inset 0 1px 0 0 rgba(255, 255, 255, 0.8),
     0 8px 32px 0 rgba(85, 91, 86, 0.05); /* shadow tinted with primary dark gray-green */
+}
+
+/* Page Transitions */
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s ease;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
 }
 </style>

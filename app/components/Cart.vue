@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-const { cart, isCartOpen, removeFromCart, updateQuantity, cartTotal } = useCart()
+const { cart, cartId, isCartOpen, removeFromCart, updateQuantity, cartTotal } = useCart()
 const { locale } = useI18n()
 
 const loading = ref(false)
@@ -95,7 +95,8 @@ const checkout = async () => {
       method: 'POST',
       body: {
         items: cart.value.map(item => ({ id: item.id, quantity: item.quantity })),
-        turnstileToken: turnstileToken.value
+        turnstileToken: turnstileToken.value,
+        cartId: cartId.value
       }
     })
     

@@ -20,7 +20,7 @@
       <h2 class="text-2xl font-bold mt-8 mb-4">4. Responsable de la protection des données / Privacy Officer</h2>
       <p>Conformément aux exigences de la Loi 25, la personne désignée responsable de la protection des renseignements personnels au sein de notre entreprise est :</p>
       <ul class="list-none pl-0 border-l-4 border-secondary pl-4 my-4 bg-beige p-4">
-        <li><strong>Nom / Name :</strong> [NOM DU RESPONSABLE À COMPLÉTER]</li>
+        <li><strong>Nom / Name :</strong> Jean-François Ladurée, DPO</li>
         <li><strong>Titre / Title :</strong> Officier de la protection de la vie privée / Privacy Officer</li>
         <li><strong>Courriel / Email :</strong> <a href="mailto:confidentialite@histoireetsaveurs.com" class="text-primary underline">confidentialite@histoireetsaveurs.com</a></li>
         <li><strong>Téléphone / Phone :</strong> [NUMÉRO DE TÉLÉPHONE À COMPLÉTER]</li>

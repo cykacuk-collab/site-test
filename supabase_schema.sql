@@ -144,3 +144,18 @@ CREATE POLICY "Admin Deletes"
 ON storage.objects FOR DELETE
 USING ( bucket_id = 'product_images' AND public.is_admin() );
 */
+
+-- ==========================================
+-- 7. COMPLETED CARTS (GUEST CART CLEARING)
+-- ==========================================
+-- Used to automatically clear the frontend cart if the user closes their browser
+-- immediately after a successful Stripe payment before returning to the success URL.
+CREATE TABLE public.completed_carts (
+    cart_id TEXT PRIMARY KEY,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- RLS: Completed Carts
+ALTER TABLE public.completed_carts ENABLE ROW LEVEL SECURITY;
+-- Public profiles can securely check if their specific cart_id was paid
+CREATE POLICY "Anyone can check cart status" ON public.completed_carts FOR SELECT USING (true);

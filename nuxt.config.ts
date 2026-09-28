@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
-  devtools: { enabled: true },
+  devtools: { enabled: process.env.NODE_ENV !== 'production' },
   future: {
     compatibilityVersion: 4,
   },
@@ -10,17 +10,44 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/supabase',
     '@nuxtjs/turnstile',
-    'nuxt-security'
+    'nuxt-security',
+    '@nuxt/image'
   ],
+  runtimeConfig: {
+    public: {
+      siteUrl: 'https://histoireetsaveurs.ca'
+    }
+  },
+  routeRules: {
+    '/api/checkout': {
+      security: {
+        rateLimiter: {
+          tokensPerInterval: 5,
+          interval: 60000
+        }
+      }
+    },
+    '/api/b2b-inquiry': {
+      security: {
+        rateLimiter: {
+          tokensPerInterval: 5,
+          interval: 60000
+        }
+      }
+    }
+  },
 
   security: {
     headers: process.env.NODE_ENV === 'production' ? {
+      strictTransportSecurity: { maxAge: 31536000, includeSubdomains: true },
+      xFrameOptions: 'DENY',
+      xContentTypeOptions: 'nosniff',
       contentSecurityPolicy: {
         'default-src': ["'self'"],
         'style-src': ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
         'font-src': ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
         'img-src': ["'self'", "data:", "https://images.unsplash.com", "https://via.placeholder.com", process.env.SUPABASE_URL || "https://*.supabase.co"],
-        'script-src': ["'self'", "'unsafe-inline'", "https://challenges.cloudflare.com"],
+        'script-src': ["'self'", "https://challenges.cloudflare.com"],
         'frame-src': ["'self'", "https://challenges.cloudflare.com", "https://js.stripe.com", "https://hooks.stripe.com"],
         'connect-src': ["'self'", process.env.SUPABASE_URL || "https://*.supabase.co", "https://challenges.cloudflare.com", "ws:", "wss:"]
       },
@@ -41,6 +68,8 @@ export default defineNuxtConfig({
     lazy: true
   },
   app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+    layoutTransition: { name: 'layout', mode: 'out-in' },
     head: {
       title: 'Histoire et Saveurs | Fonds de tarte artisanaux',
       meta: [

@@ -20,7 +20,8 @@ export default defineEventHandler(async (event) => {
   try {
     stripeEvent = stripe.webhooks.constructEvent(body, stripeSignature, endpointSecret)
   } catch (err) {
-    throw createError({ statusCode: 400, message: `Webhook signature verification failed: ${err.message}` })
+    console.error('Webhook signature verification failed:', err.message)
+    throw createError({ statusCode: 400, message: 'Webhook validation failed' })
   }
 
   const supabase = await serverSupabaseServiceRole(event)
@@ -39,7 +40,26 @@ export default defineEventHandler(async (event) => {
   if (lockError) {
     // 23505 is the Postgres error code for unique violation
     if (lockError.code === '23505') {
-      console.log(`Webhook ${stripeEvent.id} is already being processed. Ignoring duplicate.`)
+      const { data: existingEvent } = await supabase
+        .from('webhook_events')
+        .select('status, processed_at')
+        .eq('stripe_event_id', stripeEvent.id)
+        .single()
+
+      if (existingEvent) {
+        if (existingEvent.status === 'completed') {
+          return { success: true }
+        }
+        if (existingEvent.status === 'processing') {
+          const processedAt = new Date(existingEvent.processed_at).getTime()
+          if (Date.now() - processedAt > 5 * 60 * 1000) {
+            await supabase.from('webhook_events').delete().eq('stripe_event_id', stripeEvent.id)
+            throw createError({ statusCode: 500, message: 'Assuming hard crash, retrying' })
+          } else {
+            throw createError({ statusCode: 409, message: 'Processing in progress' })
+          }
+        }
+      }
       return { success: true, message: 'Already processed' }
     }
     throw createError({ statusCode: 500, message: 'Database lock failed' })
@@ -57,21 +77,6 @@ export default defineEventHandler(async (event) => {
         limit: 100
       })
 
-      // Create Order
-      const { data: newOrder, error: orderError } = await supabase
-        .from('orders')
-        .insert({
-          stripe_session_id: session.id,
-          customer_email: session.customer_details?.email,
-          customer_name: session.customer_details?.name,
-          amount_total_cents: session.amount_total,
-          status: 'paid'
-        })
-        .select()
-        .single()
-
-      if (orderError) throw orderError
-
       // Process Items securely from Stripe's source of truth
       const orderItems = []
       for (const item of lineItems.data) {
@@ -82,17 +87,23 @@ export default defineEventHandler(async (event) => {
         }
 
         orderItems.push({
-          order_id: newOrder.id,
           product_id: productId,
           quantity: item.quantity,
-          price_at_purchase_cents: item.price.unit_amount
+          price_cents: item.price.unit_amount
         })
       }
 
-      if (orderItems.length > 0) {
-        const { error: itemsError } = await supabase.from('order_items').insert(orderItems)
-        if (itemsError) throw itemsError
-      }
+      const { error: txError } = await supabase.rpc('process_order_transaction', {
+        p_session_id: session.id,
+        p_email: session.customer_details?.email || null,
+        p_name: session.customer_details?.name || null,
+        p_amount: session.amount_total,
+        p_cart_id: session.metadata?.cart_id || null,
+        p_items: orderItems,
+        p_stripe_event_id: stripeEvent.id
+      })
+
+      if (txError) throw txError
 
       // Background Email Dispatch
       if (session.customer_details?.email) {
@@ -104,6 +115,11 @@ export default defineEventHandler(async (event) => {
             html: `<h1>Merci pour votre commande!</h1><p>Votre commande de ${(session.amount_total / 100).toFixed(2)}$ a bien été reçue.</p>`
           }).catch(err => console.error('Failed to send confirmation email', err))
         )
+      }
+
+      // Record cart_id to clear frontend cookies automatically
+      if (session.metadata?.cart_id) {
+        await supabase.from('completed_carts').insert({ cart_id: session.metadata.cart_id }).catch(console.error)
       }
 
     } else if (stripeEvent.type === 'checkout.session.expired') {
@@ -141,9 +157,9 @@ export default defineEventHandler(async (event) => {
 
   } catch (processingError) {
     // If our logic fails, delete the idempotency lock so Stripe can safely retry it later!
-    console.error('Webhook processing failed, removing lock:', processingError)
+    console.error('Webhook processing failed, removing lock:', processingError.message)
     await supabase.from('webhook_events').delete().eq('stripe_event_id', stripeEvent.id)
     
-    throw createError({ statusCode: 500, message: processingError.message })
+    throw createError({ statusCode: 500, message: 'Internal processing error' })
   }
 })

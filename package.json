@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/image": "^2.1.0",
     "nuxt": "^4.5.2",
     "nuxt-security": "^2.6.0",
     "resend": "^6.28.1",

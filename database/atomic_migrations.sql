@@ -8,7 +8,7 @@ DECLARE
     v_stock INT;
 BEGIN
     -- Iterate through each item in the JSONB array
-    FOR item IN SELECT * FROM jsonb_to_recordset(cart_items) AS x(id UUID, quantity INT)
+    FOR item IN SELECT * FROM jsonb_to_recordset(cart_items) AS x(id UUID, quantity INT) ORDER BY id
     LOOP
         -- Sanity check: prevent negative or zero quantities
         IF item.quantity <= 0 THEN
@@ -55,3 +55,37 @@ ALTER TABLE webhook_events ADD CONSTRAINT unique_stripe_event_id UNIQUE (stripe_
 
 -- Add a status tracking column to handle partial crashes
 ALTER TABLE webhook_events ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'processing';
+
+-- 4. Atomic Order Transaction
+CREATE OR REPLACE FUNCTION process_order_transaction(
+    p_session_id TEXT,
+    p_email TEXT,
+    p_name TEXT,
+    p_amount INT,
+    p_cart_id UUID,
+    p_items JSONB,
+    p_stripe_event_id TEXT
+)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_order_id UUID;
+    item RECORD;
+BEGIN
+    -- Insert the order
+    INSERT INTO orders (stripe_session_id, customer_email, customer_name, amount_total_cents, status)
+    VALUES (p_session_id, p_email, p_name, p_amount, 'paid')
+    RETURNING id INTO v_order_id;
+
+    -- Insert order items
+    FOR item IN SELECT * FROM jsonb_to_recordset(p_items) AS x(product_id UUID, quantity INT, price_cents INT)
+    LOOP
+        INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase_cents)
+        VALUES (v_order_id, item.product_id, item.quantity, item.price_cents);
+    END LOOP;
+
+    -- Mark webhook event as completed
+    UPDATE webhook_events SET status = 'completed' WHERE stripe_event_id = p_stripe_event_id;
+END;
+$$;

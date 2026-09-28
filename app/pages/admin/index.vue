@@ -190,7 +190,15 @@ const editProduct = (p) => {
 }
 
 const handleFile = (e) => {
-  form.value.file = e.target.files[0]
+  const file = e.target.files[0]
+  if (!file) return
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+    errorMsg.value = 'Invalid file type'
+    form.value.file = null
+    return
+  }
+  form.value.file = file
+  errorMsg.value = ''
 }
 
 const fetchProducts = async () => {
@@ -213,7 +221,7 @@ const saveProduct = async () => {
     // 1. Upload new image if provided
     if (form.value.file) {
       const fileExt = form.value.file.name.split('.').pop()
-      const fileName = `${Math.random()}.${fileExt}`
+      const fileName = `${crypto.randomUUID()}.${fileExt}`
       const filePath = `tart-shells/${fileName}`
 
       const { error: uploadError } = await supabase.storage
@@ -226,6 +234,17 @@ const saveProduct = async () => {
         .from('product_images')
         .getPublicUrl(filePath)
       
+      if (form.value.existing_image) {
+        try {
+          const oldPathMatch = form.value.existing_image.split('product_images/')[1]
+          if (oldPathMatch) {
+            await supabase.storage.from('product_images').remove([oldPathMatch])
+          }
+        } catch (e) {
+          console.error('Failed to delete old image', e)
+        }
+      }
+
       imageUrl = data.publicUrl
     }
 
@@ -264,8 +283,21 @@ const saveProduct = async () => {
 
 const deleteProduct = async (id) => {
   if (!confirm('Supprimer ce produit définitivement?')) return
+  const p = products.value.find(prod => prod.id === id)
   const { error } = await supabase.from('products').delete().eq('id', id)
-  if (!error) fetchProducts()
+  if (!error) {
+    if (p && p.image_url) {
+      try {
+        const oldPathMatch = p.image_url.split('product_images/')[1]
+        if (oldPathMatch) {
+          await supabase.storage.from('product_images').remove([oldPathMatch])
+        }
+      } catch (e) {
+        console.error('Failed to delete old image', e)
+      }
+    }
+    fetchProducts()
+  }
 }
 
 const logout = async () => {
