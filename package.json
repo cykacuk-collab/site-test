@@ -7,15 +7,18 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "node tests/runner.mjs"
   },
   "dependencies": {
     "@nuxt/image": "^2.1.0",
+    "chart.js": "^4.5.1",
     "nuxt": "^4.5.2",
     "nuxt-security": "^2.6.0",
     "resend": "^6.28.1",
     "stripe": "^22.6.2",
     "vue": "^3.5.42",
+    "vue-chartjs": "^5.3.4",
     "vue-router": "^5.3.1"
   },
   "devDependencies": {

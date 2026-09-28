@@ -5,7 +5,7 @@ export default {
       colors: {
         primary: '#555B56', // Muted dark gray-green (text, footers, headings)
         secondary: '#E8DDCC', // Warm sand/beige (buttons, highlights)
-        accent: '#EDF6ED', // Very pale mint green (accents, hero bg)
+        accent: '#D5DDD5', //  Very pale mint green (accents, hero bg) or #EDF6ED
         beige: '#faf9f6', // Extremely soft off-white for the main body background
       },
       fontFamily: {
